@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Webhook Events</title>
+    <script>
+        async function fetchData() {
+            const response = await fetch('/events');
+            const data = await response.json();
+            const eventList = document.getElementById('event-list');
+            eventList.innerHTML = '';  // Clear the list
+
+            data.forEach(event => {
+                const li = document.createElement('li');
+                li.textContent = `${event.author} ${event.event} from ${event.from_branch || ''} to ${event.to_branch} on ${new Date(event.timestamp)}`;
+                eventList.appendChild(li);
+            });
+        }
+
+        // Poll every 15 seconds
+        setInterval(fetchData, 15000);
+    </script>
+</head>
+<body>
+    <h1>Latest GitHub Events</h1>
+    <ul id="event-list"></ul>
+</body>
+</html>
