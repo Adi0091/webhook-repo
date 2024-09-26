@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from pymongo import MongoClient
 from datetime import datetime, timezone
 from flask import render_template
+
 app = Flask(__name__)
 
 # MongoDB Setup
@@ -26,8 +27,6 @@ def webhook():
 
         event_type = request.headers.get('X-GitHub-Event')
         timestamp = datetime.now(timezone.utc)
-
-        event_data = {}  # Initialize event data
 
         # Parse Push Event
         if event_type == 'push':
